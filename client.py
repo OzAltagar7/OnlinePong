@@ -4,7 +4,7 @@ import os
 
 # The server's IP and port
 SERVER_IP = "192.168.1.187"
-PORT = 1234
+PORT = 1235
 SERVER_ADDRESS = (SERVER_IP, PORT)
 
 # Header of the data transmitted indicating the length of the data.
@@ -37,8 +37,28 @@ def main():
         client_socket.send(padded_length)
         client_socket.send(pickled_data)
 
+    def receive_data():
+        # Receive the first message (the header),
+        # which indicates the incoming data length
+        data_length = int(pickle.loads(client_socket.recv(HEADER_SIZE)))
+        
+        # Check the data is not None
+        if data_length:
+            # Receive the data itself
+            data = pickle.loads(client_socket.recv(data_length))
+
+            # Print the incoming message
+            print(f"[{SERVER_ADDRESS[0], SERVER_ADDRESS[1]}] {data}")
+
     while True:
-        send_data(input("MESSAGE: "))
+        data = input("WHAT WOULD YOU LIKE TO SEND TO THE SERVER? ")
+        send_data(data)
+
+        # In case the user disconnected
+        if data == DISCONNECT_MESSAGE:
+            break
+
+        receive_data()
 
 if __name__ == "__main__":
     main()

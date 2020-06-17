@@ -42,7 +42,7 @@ def main():
         # which indicates the incoming data length
         data_length = int(pickle.loads(client_socket.recv(HEADER_SIZE)))
         
-        # Check the data is not None
+        # Check wether the data is not None
         if data_length:
             # Receive the data itself
             data = pickle.loads(client_socket.recv(data_length))

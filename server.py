@@ -41,7 +41,7 @@ def handle_client(conn, addr):
         # which indicates the incoming data length
         data_length = int(pickle.loads(conn.recv(HEADER_SIZE)))
         
-        # Check the data is not None
+        # Check wether the data is not None
         if data_length:
             # Receive the data itself
             data = pickle.loads(conn.recv(data_length))
@@ -54,11 +54,13 @@ def handle_client(conn, addr):
                 # Print the incoming message
                 print(f"[{addr[0], addr[1]}] {data}")
 
+            return data
+
     try:
         while True:
-            receive_data()
-            send_data("MESSAGE APPROVED")
-    except ClientDisconnection:
+            data = receive_data()
+            send_data(f"THANK YOU FOR SAYING {data}")
+    except:
         print(f"[CLIENT DISCONNECTED] {addr} HAS DISCONNECTED")
 
     # Close the connection socket in case of a break caused by a disconnection
@@ -83,14 +85,6 @@ def main():
         # Start a new thread handling the new connection
         client_thread = threading.Thread(target=handle_client, args=(conn, addr))
         client_thread.start()
-        client_thread.join()
-
-        # All clients have disconnected
-        if threading.active_count() - 1 == 0:
-            print("[SERVER DISCONNECTED] NO MORE CLIENTS LEFT")
-            break
-    
-    server_socket.close()
 
 if __name__ == "__main__":
     main()

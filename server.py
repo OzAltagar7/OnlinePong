@@ -2,6 +2,10 @@ import socket
 import threading
 import pickle
 import os
+import pygame
+import random
+from player import Player
+from colors import get_random_color
 
 # The server's IP and port
 HOST = socket.gethostbyname(socket.gethostname())
@@ -13,12 +17,23 @@ SERVER_ADDRESS = (HOST, PORT)
 # will be sent indicating the length of the incoming data
 HEADER_SIZE = 8
 
-# A disconnection message indicating the disconnecting of a client
-# meaning closing the connection on the server-side
-DISCONNECT_MESSAGE = "!DISCONNECT"
+# Number of active connections to the server.
+# threading.active_count() includes the main program thread hence the minus one
+active_connections = threading.active_count() - 1
+
+# Contains all of the players connected to the server
+players = []
+
+def generate_player():
+    # Generate a new random player and append it to the player's list
+    player = Player(random.randint(0, 750), random.randint(0, 750), 2, get_random_color())
+    players.append(player)
+    return player
 
 def handle_client(conn, addr):
-    print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+    print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")
+
+    connection_number = threading.active_count() - 1
 
     def send_data(data):
         # In order for the data to be transmitted, it has to be in bytes format
@@ -33,9 +48,6 @@ def handle_client(conn, addr):
         conn.send(padded_length)
         conn.send(pickled_data)
 
-    # An exception for client disconnection
-    class ClientDisconnection(Exception): pass
-
     def receive_data():
         # Receive the first message (the header),
         # which indicates the incoming data length
@@ -46,20 +58,22 @@ def handle_client(conn, addr):
             # Receive the data itself
             data = pickle.loads(conn.recv(data_length))
 
-            # Handle a client disconnection
-            if data == DISCONNECT_MESSAGE:
-                # Raise a disconnection error which will break the infint loop before sending back data
-                raise ClientDisconnection
-            else:
-                # Print the incoming message
-                print(f"[{addr[0], addr[1]}] {data}")
+            # Print the incoming message
+            print(f"[{addr[0], addr[1]}] {data}")
 
-            return data
+        return data
 
     try:
+        # Generate a player and send it to the client
+        send_data(generate_player())
+
         while True:
-            data = receive_data()
-            send_data(f"THANK YOU FOR SAYING {data}")
+            # Wait for all players to connect
+            if threading.active_count() - 1 == 2:
+                # Receive the player's Player object
+                players[connection_number - 1] = receive_data()
+                # Send the opponent Player's object
+                send_data(players[connection_number - 2])
     except:
         print(f"[CLIENT DISCONNECTED] {addr} HAS DISCONNECTED")
 

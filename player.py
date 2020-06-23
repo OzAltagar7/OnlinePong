@@ -1,5 +1,5 @@
 import pygame
-from colors import WHITE
+from game_settings import *
 
 class Player:
     def __init__(self, x, y, width = 25, height = 100, color = WHITE):

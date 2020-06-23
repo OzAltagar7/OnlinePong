@@ -3,9 +3,8 @@ import threading
 import pickle
 import os
 import pygame
-import random
 from player import Player
-from colors import get_random_color
+from game_settings import *
 
 # The server's IP and port
 HOST = socket.gethostbyname(socket.gethostname())
@@ -22,7 +21,7 @@ HEADER_SIZE = 8
 active_connections = threading.active_count() - 1
 
 # Contains both players Player objects and it's assigning status
-players = [Player(100, 375), Player(650, 375)]
+players = [Player(100, WIN_HEIGHT/2), Player(WIN_WIDTH - 125, WIN_HEIGHT/2)]
 
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")

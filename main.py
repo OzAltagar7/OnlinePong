@@ -2,11 +2,11 @@ import os
 import pygame
 from client import Client
 from player import Player
-from colors import *
+from game_settings import *
 
 def main():
     # Create a game window with dimensions of 750 X 750
-    win = pygame.display.set_mode((750, 750))
+    win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
     # Client object for handling the connection to the server.
     # When connecting, the server will send a random Player object
@@ -23,7 +23,6 @@ def main():
         pygame.display.update()
 
     run = True
-    FPS = 60
     clock = pygame.time.Clock()
     while run:
         # Make the game run at a constant speed independent on the machine it runs on
@@ -32,11 +31,8 @@ def main():
         # Send the player's Player object to the server
         player_client.send_data(p1)
         
-        try:
-            # Receive the opponent's Player object from the server
-            p2 = player_client.receive_data()
-        except:
-            break
+        # Receive the opponent's Player object from the server
+        p2 = player_client.receive_data()
         
         p1.move()
         redraw_window()

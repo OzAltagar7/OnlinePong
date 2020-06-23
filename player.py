@@ -1,10 +1,12 @@
 import pygame
+from colors import WHITE
 
 class Player:
-    def __init__(self, x, y, radius, color):
+    def __init__(self, x, y, width = 25, height = 100, color = WHITE):
         self.x = x
         self.y = y
-        self.radius = radius
+        self.width = width
+        self.height = height
         self.color = color
         self.speed = 1
 
@@ -15,16 +17,10 @@ class Player:
             self.y -= self.speed
 
         if keys_pressed[pygame.K_DOWN]:
-            self.y += self.speed
-
-        if keys_pressed[pygame.K_LEFT]:
-            self.x -= self.speed
-
-        if keys_pressed[pygame.K_RIGHT]:
-            self.x += self.speed       
+            self.y += self.speed 
 
     def draw(self, win):
-        pygame.draw.circle(win, self.color, (int(self.x), int(self.y)), self.radius)
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
 
     def __str__(self):
-        return f"PLAYER | LOCATED AT {(self.x, self.y)}, WITH RADIUS OF {self.radius}, COLOR OF {self.color} AND A SPEED OF {self.speed}"
+        return f"PLAYER | LOCATED AT {(self.x, self.y)}, COLOR OF {self.color} AND A SPEED OF {self.speed}"

@@ -21,19 +21,14 @@ HEADER_SIZE = 8
 # threading.active_count() includes the main program thread hence the minus one
 active_connections = threading.active_count() - 1
 
-# Contains all of the players connected to the server
-players = []
-
-def generate_player():
-    # Generate a new random player and append it to the player's list
-    player = Player(random.randint(0, 750), random.randint(0, 750), 2, get_random_color())
-    players.append(player)
-    return player
+# Contains both players Player objects and it's assigning status
+players = [Player(100, 375), Player(650, 375)]
 
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")
 
-    connection_number = threading.active_count() - 1
+    # So it starts from 0
+    connection_number = threading.active_count() - 2
 
     def send_data(data):
         # In order for the data to be transmitted, it has to be in bytes format
@@ -65,7 +60,7 @@ def handle_client(conn, addr):
 
     try:
         # Generate a player and send it to the client
-        send_data(generate_player())
+        send_data(players[connection_number - 1])
 
         while True:
             # Wait for all players to connect

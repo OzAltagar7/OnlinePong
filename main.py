@@ -2,8 +2,7 @@ import os
 import pygame
 from client import Client
 from player import Player
-
-
+from colors import *
 
 def main():
     # Create a game window with dimensions of 750 X 750
@@ -16,6 +15,8 @@ def main():
     p1 = player_client.receive_data()
 
     def redraw_window():
+        win.fill(BLACK)
+
         p1.draw(win)
         p2.draw(win)
 

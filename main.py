@@ -2,7 +2,8 @@ import os
 import pygame
 from client import Client
 from player import Player
-from game_settings import *
+from ball import Ball
+from game_settings import WIN_WIDTH, WIN_HEIGHT, BLACK, FPS
 
 def main():
     # Create a game window with dimensions of 750 X 750
@@ -20,6 +21,8 @@ def main():
         p1.draw(win)
         p2.draw(win)
 
+        ball.draw(win)
+
         pygame.display.update()
 
     run = True
@@ -33,6 +36,9 @@ def main():
         
         # Receive the opponent's Player object from the server
         p2 = player_client.receive_data()
+
+        # Receive the ball object from the server
+        ball = player_client.receive_data()
         
         p1.move()
         redraw_window()

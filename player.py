@@ -1,5 +1,5 @@
 import pygame
-from game_settings import *
+from game_settings import WHITE
 
 class Player:
     def __init__(self, x, y, width = 25, height = 100, color = WHITE):
@@ -8,7 +8,7 @@ class Player:
         self.width = width
         self.height = height
         self.color = color
-        self.speed = 1
+        self.speed = 5
 
     def move(self):
         keys_pressed = pygame.key.get_pressed()

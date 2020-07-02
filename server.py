@@ -4,7 +4,8 @@ import pickle
 import os
 import pygame
 from player import Player
-from game_settings import *
+from ball import Ball
+from game_settings import WIN_WIDTH, WIN_HEIGHT
 
 # The server's IP and port
 HOST = socket.gethostbyname(socket.gethostname())
@@ -17,17 +18,19 @@ SERVER_ADDRESS = (HOST, PORT)
 HEADER_SIZE = 8
 
 # Number of active connections to the server.
-# threading.active_count() includes the main program thread hence the minus one
-active_connections = threading.active_count() - 1
+active_connections = 0
 
 # Contains both players Player objects and it's assigning status
 players = [Player(100, WIN_HEIGHT/2), Player(WIN_WIDTH - 125, WIN_HEIGHT/2)]
+ball = Ball()
 
 def handle_client(conn, addr):
+    global active_connections
+    active_connections += 1
     print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")
 
-    # So it starts from 0
-    connection_number = threading.active_count() - 2
+    # A unique identifier for each connection. *starts from 0 up to infinity
+    connection_number = active_connections - 1
 
     def send_data(data):
         # In order for the data to be transmitted, it has to be in bytes format
@@ -66,13 +69,24 @@ def handle_client(conn, addr):
             if threading.active_count() - 1 == 2:
                 # Receive the player's Player object
                 players[connection_number - 1] = receive_data()
+
                 # Send the opponent Player's object
                 send_data(players[connection_number - 2])
+
+                # Move the ball and send it to the clients
+                ball.move(players[0], players[1])
+
+                if ball.x <= 0 or ball.x >= WIN_WIDTH:
+                    ball.reset()
+
+                send_data(ball)
+
     except:
         print(f"[CLIENT DISCONNECTED] {addr} HAS DISCONNECTED")
 
     # Close the connection socket in case of a break caused by a disconnection
     conn.close()
+    active_connections -= 1
 
 
 def main():

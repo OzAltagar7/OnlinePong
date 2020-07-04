@@ -3,9 +3,13 @@ import pygame
 from client import Client
 from player import Player
 from ball import Ball
-from game_settings import WIN_WIDTH, WIN_HEIGHT, BLACK, FPS
+from game_settings import *
 
 def main():
+    # Initialize the pygame module
+    pygame.init()
+    clock = pygame.time.Clock()
+
     # Create a game window with dimensions of 750 X 750
     win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
@@ -17,6 +21,7 @@ def main():
 
     def redraw_window():
         win.fill(BLACK)
+        pygame.draw.aaline(win, WHITE, (WIN_WIDTH/2, 0), (WIN_WIDTH/2, WIN_HEIGHT))
 
         p1.draw(win)
         p2.draw(win)
@@ -26,7 +31,6 @@ def main():
         pygame.display.update()
 
     run = True
-    clock = pygame.time.Clock()
     while run:
         # Make the game run at a constant speed independent on the machine it runs on
         clock.tick(FPS)

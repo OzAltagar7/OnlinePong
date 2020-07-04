@@ -1,26 +1,20 @@
 import pygame
-from game_settings import WHITE
+from game_settings import *
 
 class Player:
-    def __init__(self, x, y, width = 25, height = 100, color = WHITE):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    def __init__(self, x, y, width = PLAYER_WIDTH, height = PLAYER_HEIGHT, color = WHITE):
+        self.rect = pygame.Rect(x, y, width, height)
         self.color = color
-        self.speed = 5
+        self.speed = 10
 
     def move(self):
         keys_pressed = pygame.key.get_pressed()
 
-        if keys_pressed[pygame.K_UP]:
-            self.y -= self.speed
+        if keys_pressed[pygame.K_UP] and self.rect.top - self.speed >= 0:
+            self.rect.y -= self.speed
 
-        if keys_pressed[pygame.K_DOWN]:
-            self.y += self.speed 
+        if keys_pressed[pygame.K_DOWN] and self.rect.bottom + self.speed <= WIN_HEIGHT:
+            self.rect.y += self.speed
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
-
-    def __str__(self):
-        return f"PLAYER | LOCATED AT {(self.x, self.y)}, COLOR OF {self.color} AND A SPEED OF {self.speed}"
+        pygame.draw.rect(win, self.color, self.rect)

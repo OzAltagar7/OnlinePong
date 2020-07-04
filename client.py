@@ -1,15 +1,6 @@
 import socket
 import pickle
-
-# The server's IP and port
-SERVER_IP = "192.168.1.187"
-PORT = 1235
-SERVER_ADDRESS = (SERVER_IP, PORT)
-
-# Header of the data transmitted indicating the length of the data.
-# Before sending any data through the socket, a message with length HEADER_SIZE
-# will be sent indicating the length of the incoming data
-HEADER_SIZE = 8
+from game_settings import *
 
 class Client:
     def __init__(self, server_address = SERVER_ADDRESS, header_size = HEADER_SIZE):
@@ -41,9 +32,6 @@ class Client:
         if data_length:
             # Receive the data itself
             data = pickle.loads(self.client_socket.recv(data_length))
-
-            # Print the incoming message
-            print(f"[SERVER] {data}")
 
         return data
 

@@ -5,24 +5,15 @@ import os
 import pygame
 from player import Player
 from ball import Ball
-from game_settings import WIN_WIDTH, WIN_HEIGHT
-
-# The server's IP and port
-HOST = socket.gethostbyname(socket.gethostname())
-PORT = 1235
-SERVER_ADDRESS = (HOST, PORT)
-
-# Header of the data transmitted indicating the length of the data.
-# Before sending any data through the socket, a message with length HEADER_SIZE
-# will be sent indicating the length of the incoming data
-HEADER_SIZE = 8
+from game_settings import *
 
 # Number of active connections to the server.
 active_connections = 0
 
-# Contains both players Player objects and it's assigning status
-players = [Player(100, WIN_HEIGHT/2), Player(WIN_WIDTH - 125, WIN_HEIGHT/2)]
-ball = Ball()
+# Contains both players Player objects
+players = [Player(P1_INIT_X, P1_INIT_Y), Player(P2_INIT_X, P2_INIT_Y)]
+# Holds the game ball (same for both players)
+ball = Ball(BALL_INIT_X, BALL_INIT_Y)
 
 def handle_client(conn, addr):
     global active_connections
@@ -55,9 +46,6 @@ def handle_client(conn, addr):
             # Receive the data itself
             data = pickle.loads(conn.recv(data_length))
 
-            # Print the incoming message
-            print(f"[{addr[0], addr[1]}] {data}")
-
         return data
 
     try:
@@ -66,7 +54,7 @@ def handle_client(conn, addr):
 
         while True:
             # Wait for all players to connect
-            if threading.active_count() - 1 == 2:
+            if active_connections == 2:
                 # Receive the player's Player object
                 players[connection_number - 1] = receive_data()
 
@@ -76,7 +64,7 @@ def handle_client(conn, addr):
                 # Move the ball and send it to the clients
                 ball.move(players[0], players[1])
 
-                if ball.x <= 0 or ball.x >= WIN_WIDTH:
+                if ball.rect.x <= 0 or ball.rect.x >= WIN_WIDTH:
                     ball.reset()
 
                 send_data(ball)

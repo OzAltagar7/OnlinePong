@@ -1,4 +1,5 @@
 import socket
+import pygame
 
 # The server's IP and port
 HOST = socket.gethostbyname(socket.gethostname())
@@ -26,6 +27,10 @@ BALL_INIT_X, BALL_INIT_Y = WIN_HEIGHT/2 - BALL_RADIUS, WIN_HEIGHT/2 - BALL_RADIU
 
 # The distance between two rectangles that counts as a collision
 COLLISION_TOLERANCE = 10
+
+# Score text
+pygame.font.init()
+SCORE_FONT = pygame.font.Font("Fonts/Roboto-Regular.ttf", 32)
 
 # Game FPS
 FPS = 60

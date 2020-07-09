@@ -3,6 +3,7 @@ import pygame
 from client import Client
 from player import Player
 from ball import Ball
+from text_manager import TextManager
 from game_settings import WIN_WIDTH, WIN_HEIGHT, WHITE, BLACK, FPS
 
 def main():
@@ -19,9 +20,13 @@ def main():
     player_client = Client()
     p1 = player_client.receive_data()
 
+    # Manager of the game text
+    text_manager = TextManager(win)
+
     def redraw_window():
         win.fill(BLACK)
         pygame.draw.aaline(win, WHITE, (WIN_WIDTH/2, 0), (WIN_WIDTH/2, WIN_HEIGHT))
+        text_manager.display_score(score)
 
         p1.draw(win)
         p2.draw(win)

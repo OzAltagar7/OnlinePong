@@ -16,9 +16,9 @@ class GameManager:
 
     def update_score(self):
         if self.ball.rect.x <= 0:
-            self.score[0] += 1
+            self.score[1] += 1
 
         elif self.ball.rect.x >= WIN_WIDTH:
-            self.score[1] += 1
+            self.score[0] += 1
 
     

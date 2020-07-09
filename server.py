@@ -3,17 +3,14 @@ import threading
 import pickle
 import os
 import pygame
-from player import Player
-from ball import Ball
-from game_settings import *
+from game_manager import GameManager
+from game_settings import HEADER_SIZE, SERVER_ADDRESS
 
 # Number of active connections to the server.
 active_connections = 0
 
-# Contains both players Player objects
-players = [Player(P1_INIT_X, P1_INIT_Y), Player(P2_INIT_X, P2_INIT_Y)]
-# Holds the game ball (same for both players)
-ball = Ball(BALL_INIT_X, BALL_INIT_Y)
+# An object for managing the game
+game_manager = GameManager()
 
 def handle_client(conn, addr):
     global active_connections
@@ -50,24 +47,23 @@ def handle_client(conn, addr):
 
     try:
         # Generate a player and send it to the client
-        send_data(players[connection_number - 1])
+        send_data(game_manager.players[connection_number - 1])
 
         while True:
             # Wait for all players to connect
             if active_connections == 2:
                 # Receive the player's Player object
-                players[connection_number - 1] = receive_data()
+                game_manager.players[connection_number - 1] = receive_data()
 
                 # Send the opponent Player's object
-                send_data(players[connection_number - 2])
+                send_data(game_manager.players[connection_number - 2])
 
                 # Move the ball and send it to the clients
-                ball.move(players[0], players[1])
+                game_manager.move_ball() # Updates the score in case of a goal
+                send_data(game_manager.ball)
 
-                if ball.rect.x <= 0 or ball.rect.x >= WIN_WIDTH:
-                    ball.reset()
-
-                send_data(ball)
+                # Send the current game score to the clients
+                send_data(game_manager.score)
 
     except:
         print(f"[CLIENT DISCONNECTED] {addr} HAS DISCONNECTED")

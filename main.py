@@ -3,7 +3,7 @@ import pygame
 from client import Client
 from player import Player
 from ball import Ball
-from game_settings import *
+from game_settings import WIN_WIDTH, WIN_HEIGHT, WHITE, BLACK, FPS
 
 def main():
     # Initialize the pygame module
@@ -35,6 +35,9 @@ def main():
         # Make the game run at a constant speed independent on the machine it runs on
         clock.tick(FPS)
 
+        # Move the player
+        p1.move()
+
         # Send the player's Player object to the server
         player_client.send_data(p1)
         
@@ -43,8 +46,10 @@ def main():
 
         # Receive the ball object from the server
         ball = player_client.receive_data()
+
+        # Receive the current game score from the server
+        score = player_client.receive_data()
         
-        p1.move()
         redraw_window()
 
         # Handle user exit button press

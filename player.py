@@ -1,5 +1,5 @@
 import pygame
-from game_settings import *
+from game_settings import PLAYER_WIDTH, PLAYER_HEIGHT, WHITE, WIN_HEIGHT
 
 class Player:
     def __init__(self, x, y, width = PLAYER_WIDTH, height = PLAYER_HEIGHT, color = WHITE):
@@ -15,6 +15,6 @@ class Player:
 
         if keys_pressed[pygame.K_DOWN] and self.rect.bottom + self.speed <= WIN_HEIGHT:
             self.rect.y += self.speed
-
+    
     def draw(self, win):
         pygame.draw.rect(win, self.color, self.rect)

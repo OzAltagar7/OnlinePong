@@ -1,5 +1,5 @@
 import pygame
-from game_settings import *
+from game_settings import BALL_RADIUS, WHITE, WIN_WIDTH, WIN_HEIGHT, COLLISION_TOLERANCE, BALL_INIT_X, BALL_INIT_Y
 import random
 import math
 

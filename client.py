@@ -1,6 +1,6 @@
 import socket
 import pickle
-from game_settings import *
+from game_settings import SERVER_ADDRESS, HEADER_SIZE
 
 class Client:
     def __init__(self, server_address = SERVER_ADDRESS, header_size = HEADER_SIZE):

@@ -58,7 +58,6 @@ class Client:
         # which indicates the incoming data length
         data_length = int(pickle.loads(self.client_socket.recv(self.header_size)))
         
-        # Check wether the data is not None
         if data_length:
             # Receive the data itself
             data = pickle.loads(self.client_socket.recv(data_length))

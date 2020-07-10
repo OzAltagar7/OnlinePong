@@ -9,7 +9,7 @@ from game_settings import HEADER_SIZE, SERVER_ADDRESS
 # Number of active connections to the server.
 active_connections = 0
 
-# An object for managing the game
+# Game manager
 game_manager = GameManager()
 
 def handle_client(conn, addr):
@@ -25,7 +25,7 @@ def handle_client(conn, addr):
     active_connections += 1
     print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")
 
-    # A unique identifier for each connection. *starts from 0 up to infinity
+    # A unique identifier for each connection. *starts from 0
     connection_number = active_connections - 1
 
     def send_data(data):
@@ -60,7 +60,6 @@ def handle_client(conn, addr):
         # which indicates the incoming data length
         data_length = int(pickle.loads(conn.recv(HEADER_SIZE)))
         
-        # Check wether the data is not None
         if data_length:
             # Receive the data itself
             data = pickle.loads(conn.recv(data_length))
@@ -74,10 +73,10 @@ def handle_client(conn, addr):
         while True:
             # Wait for all players to connect
             if active_connections == 2:
-                # Receive the player's Player object
+                # Receive the player object
                 game_manager.players[connection_number - 1] = receive_data()
 
-                # Send the opponent Player's object
+                # Send the opponent object
                 send_data(game_manager.players[connection_number - 2])
 
                 # Move the ball and send it to the clients

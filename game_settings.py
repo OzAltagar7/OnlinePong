@@ -1,5 +1,6 @@
 import socket
 import pygame
+import os
 
 # The server's IP and port
 HOST = socket.gethostbyname(socket.gethostname())
@@ -14,6 +15,31 @@ HEADER_SIZE = 8
 # Screen dimensions
 WIN_WIDTH = 750
 WIN_HEIGHT = 750
+
+# Images
+WAITING_FOR_OPPONENT = pygame.image.load(os.path.join("photos", "waiting_for_opponent.png"))
+GAME_ICON = pygame.image.load(os.path.join("photos", "game_icon.png"))
+
+# The program name
+WIN_CAPTION = "Online Pong"
+
+def init_window():
+    """
+    Initialize the main game window.
+
+    Returns:
+        (pygame.Surface): The main game window.
+    """
+
+    # Create a game window with dimensions of 750 X 750
+    win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    pygame.display.set_caption(WIN_CAPTION)
+    pygame.display.set_icon(GAME_ICON)
+    # Display the waiting_for_opponent image until opponent is connected
+    win.blit(WAITING_FOR_OPPONENT, (0, 0))
+    pygame.display.update()
+
+    return win
 
 # Player dimensions and initial position
 PLAYER_WIDTH = 20

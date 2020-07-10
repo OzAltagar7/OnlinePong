@@ -4,7 +4,7 @@ from client import Client
 from player import Player
 from ball import Ball
 from text_manager import TextManager
-from game_settings import WIN_WIDTH, WIN_HEIGHT, WHITE, BLACK, FPS
+from game_settings import WIN_WIDTH, WIN_HEIGHT, WIN_CAPTION, GAME_ICON, WAITING_FOR_OPPONENT, WHITE, BLACK, FPS, init_window
 
 def main():
     """The main game function."""
@@ -12,8 +12,8 @@ def main():
     pygame.init()
     clock = pygame.time.Clock()
 
-    # Create a game window with dimensions of 750 X 750
-    win = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+    # Create the main game window
+    win = init_window()
 
     # Client object for handling the connection to the server.
     # When connecting, the server will send a random Player object
@@ -63,7 +63,6 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
     
-    # In case of a break in the main game loop,
     # close the game window and the connection to the server
     pygame.quit()
     player_client.close_connection()

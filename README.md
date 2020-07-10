@@ -1,3 +1,5 @@
+![Thumbnail](photos/thumbnail.png)
+
 # PythonOnlinePong
 
 An online pong game created using PyGame and sockets.
@@ -13,4 +15,4 @@ in each frame of the game, each client sends it's own player to the server for u
 NOTE: The server only sends the differnet game objects information while the rendering is taking place at the client-side.
 
 ### Workflow Diagram-
-![](photos/workflow_digram.png)
+![Workflow Diagram](photos/workflow_diagram.png)

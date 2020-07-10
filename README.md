@@ -5,9 +5,10 @@
 An online pong game created using PyGame and sockets.
 
 ## How To Play
-1. Run server.py
-2. In game_settings.py, make sure that HOST is referring to the correct server IP address (in case both players are from the same machine, no need to change any settings as the default server host is the same IP address as the client)
-3. Run main.py for each player
+1. Make sure the PyGame library is installed (if not, pip install pygame)
+2. Run server.py
+3. In game_settings.py, make sure that HOST is referring to the correct server IP address (in case both players are from the same machine, no need to change any settings as the default server host is the same IP address as the client)
+4. Run main.py for each player
 
 ## General Algorithm
 The server holds both players, the ball and the game score (in order to keep the game synced between the two players as connection problems and lags can create different game states).

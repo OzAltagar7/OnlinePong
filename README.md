@@ -14,5 +14,5 @@ The server holds both players, the ball and the game score (in order to keep the
 in each frame of the game, each client sends it's own player to the server for updating it's instance server-side and receives the opponent, the ball and the current score.  
 NOTE: The server only sends the differnet game objects information while the rendering is taking place at the client-side.
 
-### Workflow Diagram-
+### Workflow Diagram
 ![Workflow Diagram](photos/workflow_diagram.png)

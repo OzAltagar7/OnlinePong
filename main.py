@@ -7,6 +7,7 @@ from text_manager import TextManager
 from game_settings import WIN_WIDTH, WIN_HEIGHT, WHITE, BLACK, FPS
 
 def main():
+    """The main game function."""
     # Initialize the pygame module
     pygame.init()
     clock = pygame.time.Clock()
@@ -24,15 +25,20 @@ def main():
     text_manager = TextManager(win)
 
     def redraw_window():
+        """Clear the screen frame and render a new frame."""
+
+        # Clear the screen by coloring it black
         win.fill(BLACK)
+        # Draw the middle line the display the score
         pygame.draw.aaline(win, WHITE, (WIN_WIDTH/2, 0), (WIN_WIDTH/2, WIN_HEIGHT))
         text_manager.display_score(score)
 
+        # Draw the players and the ball
         p1.draw(win)
         p2.draw(win)
-
         ball.draw(win)
 
+        # Update the screen
         pygame.display.update()
 
     run = True
@@ -40,24 +46,19 @@ def main():
         # Make the game run at a constant speed independent on the machine it runs on
         clock.tick(FPS)
 
-        # Move the player
         p1.move()
 
         # Send the player's Player object to the server
         player_client.send_data(p1)
         
-        # Receive the opponent's Player object from the server
+        # Receive the opponent, the ball and the score from the server
         p2 = player_client.receive_data()
-
-        # Receive the ball object from the server
         ball = player_client.receive_data()
-
-        # Receive the current game score from the server
         score = player_client.receive_data()
         
         redraw_window()
 
-        # Handle user exit button press
+        # Handle a user exit button press
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False

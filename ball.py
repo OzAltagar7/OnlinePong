@@ -4,15 +4,40 @@ import random
 import math
 
 class Ball:
+    """
+    The game ball.
+
+    Attributes:
+        rect (pygame.Rect): Rect object of the ball (x, y, width, height).
+        color ((int, int, int)): The color of the ball.
+        speed (int): The ball's speed (magnitude).
+        moving_direction ([int, int]): The ball moving direction along the [XY] plane
+    """
+
     def __init__(self, x, y, radius = BALL_RADIUS, color = WHITE):
+        """
+        Constructor of the Ball class.
+
+        Args:
+            x (int): The ball initial x position.
+            y (int): The ball initial y position.
+            radius (int, optional): The ball radius. Defaults to BALL_RADIUS.
+            color ((int, int, int)), optional): The color of the ball. Defaults to WHITE.
+        """
+
         self.rect = pygame.Rect(x, y, 2 * radius, 2 * radius)
         self.color = color
         self.speed = 3
         self.moving_direction = [random.choice([1, -1]), random.choice([1, -1])]
 
     def move(self, p1, p2):
-        # When being called, p1 and p2 has to be in the correct order!
-        # p1 corrusponds to the left player and p2 to the right one
+        """
+        Move the ball around and apply collisions with other objects.
+
+        Args:
+            p1 (Player): The left player.
+            p2 (Player): The right player.
+        """
 
         # Handle collisions with the top and bottom of the screen
         if self.rect.top <= 0 or self.rect.bottom >= WIN_HEIGHT:
@@ -37,9 +62,18 @@ class Ball:
         self.rect.y += self.speed * self.moving_direction[1]
             
     def reset(self):
+        """Reset the ball to it's starting position."""
+
         self.rect.x = BALL_INIT_X
         self.rect.y = BALL_INIT_Y
         self.moving_direction = [random.choice([1, -1]), random.choice([1, -1])]
 
     def draw(self, win):
+        """
+        Draw the ball.
+
+        Args:
+            win (pygame.Surface): the main game screen
+        """
+
         pygame.draw.ellipse(win, self.color, self.rect)

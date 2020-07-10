@@ -13,6 +13,14 @@ active_connections = 0
 game_manager = GameManager()
 
 def handle_client(conn, addr):
+    """
+    Handle a connection with a single client.
+
+    Args:
+        conn (Socket): The server-side connection socket
+        addr ((string, int)): The client's address (IP, PORT)
+    """
+
     global active_connections
     active_connections += 1
     print(f"[NEW CONNECTION] ESTABLISHED A NEW CONNECTION WITH {addr}, [ACTIVE CONNECTIONS] {active_connections}")
@@ -21,6 +29,13 @@ def handle_client(conn, addr):
     connection_number = active_connections - 1
 
     def send_data(data):
+        """
+        Send data to the client.
+
+        Args:
+            data (Any): The data that's being sent.
+        """
+
         # In order for the data to be transmitted, it has to be in bytes format
         pickled_data = pickle.dumps(data)
         # Actual length of the data (for example 3) 
@@ -34,6 +49,13 @@ def handle_client(conn, addr):
         conn.send(pickled_data)
 
     def receive_data():
+        """
+        Receive data from the client.
+
+        Returns:
+            Any: The data that was received.
+        """
+
         # Receive the first message (the header),
         # which indicates the incoming data length
         data_length = int(pickle.loads(conn.recv(HEADER_SIZE)))
@@ -74,6 +96,7 @@ def handle_client(conn, addr):
 
 
 def main():
+    """The main server function."""
     # Clear the terminal before a new run
     os.system('cls')    
 

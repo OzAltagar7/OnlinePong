@@ -1,6 +1,6 @@
 ![Thumbnail](photos/thumbnail.png)
 
-# PythonOnlinePong
+# Python Online Pong
 
 An online pong game created using PyGame and sockets.
 

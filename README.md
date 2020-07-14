@@ -5,7 +5,7 @@
 An online pong game created using PyGame and sockets.
 
 ## How To Play
-1. Make sure the PyGame library is installed (if not, `pip install pygame`))
+1. Make sure that the PyGame library is installed (if not, `pip install pygame`))
 2. Run `server.py`
 3. In `game_settings.py`, make sure that `HOST` is referring to the correct server IP address (in case both players are from the same machine, no need to change any settings as the default server host is the same IP address as the client)
 4. Run main.py for each player

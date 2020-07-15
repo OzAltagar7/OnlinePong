@@ -25,7 +25,7 @@ def main():
     text_manager = TextManager(win)
 
     def redraw_window():
-        """Clear the screen frame and render a new frame."""
+        """Clear the screen and render a new frame."""
 
         # Clear the screen by coloring it black
         win.fill(BLACK)

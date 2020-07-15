@@ -1,7 +1,7 @@
 ![Thumbnail](photos/thumbnail.png)
 
 # Python Online Pong
-An online pong game created using PyGame and sockets.
+An online pong game created using pygame and sockets.
 
 ## How To Play
 1. Make sure that the pygame library is installed (if not, `pip install pygame`))

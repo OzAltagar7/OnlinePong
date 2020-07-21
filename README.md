@@ -1,4 +1,6 @@
-<img src="images/thumbnail.gif" width=500 align="center">
+<div align="center">
+    <img src="images/thumbnail.gif" width=500>
+</div>
 
 # Python Online Pong
 

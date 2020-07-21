@@ -1,4 +1,4 @@
-![Thumbnail](images/thumbnail.gif)
+<img src="images/thumbnail.gif" width=500 align="center">
 
 # Python Online Pong
 

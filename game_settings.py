@@ -17,8 +17,8 @@ WIN_WIDTH = 750
 WIN_HEIGHT = 750
 
 # Images
-WAITING_FOR_OPPONENT = pygame.image.load(os.path.join("photos", "waiting_for_opponent.png"))
-GAME_ICON = pygame.image.load(os.path.join("photos", "game_icon.png"))
+WAITING_FOR_OPPONENT = pygame.image.load(os.path.join("images", "waiting_for_opponent.png"))
+GAME_ICON = pygame.image.load(os.path.join("images", "game_icon.png"))
 
 # The program name
 WIN_CAPTION = "Online Pong"

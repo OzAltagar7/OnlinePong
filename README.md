@@ -14,7 +14,9 @@ NOTE: The server only sends the different game objects information while the ren
 
 ### Workflow Diagram
 
-![Workflow Diagram](images/workflow_diagram.png)
+<div align="center">
+    <img src="images/workflow_diagram.png">
+</div>
 
 ## How To Play
 
@@ -22,3 +24,7 @@ NOTE: The server only sends the different game objects information while the ren
 2. In `game_settings.py`, make sure that `HOST` is referring to the correct server IP address (in case both players are from the same machine, no need to change any settings as the default server host is the same IP address as the client)
 3. Run `server.py`
 4. Run main.py for each player
+
+<div align="center">
+    <img src="images/user_manual.gif">
+</div>
